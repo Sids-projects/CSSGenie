@@ -40,10 +40,16 @@
     [cdkDropListData]="droppedItems"
     [cdkDropListConnectedTo]="['exampleList']"
   >
-    <button *ngFor="let item of droppedItems" type="button" [ngStyle]="changes">
-      {{ btnName }}
-    </button>
-    <ng-component></ng-component>
+    <div *ngFor="let data of droppedItems">
+      <div *ngIf="data === 'Button'">
+        <button [ngStyle]="changes" type="button">
+          {{ btnName }}
+        </button>
+      </div>
+      <div *ngIf="data === 'Input'">
+        <input type="text" />
+      </div>
+    </div>
   </section>
 
   <form [formGroup]="btnForm" class="editor-form">
@@ -54,9 +60,15 @@
         data-bs-target="#offcanvasTop"
         aria-controls="offcanvasTop"
       >
-        Tools
+        <i class="fa-solid fa-store"></i> Tools
       </button>
-      <button class="code"><i class="fa-solid fa-code"></i> Code</button>
+      <button
+        class="code"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        <i class="fa-solid fa-code"></i> Code
+      </button>
     </div>
 
     <div class="editor">
@@ -113,7 +125,9 @@
             Size
           </h3>
           <div>
-            <label>{{ editWidthHeight ? "Custamize" : "Auto" }}</label>
+            <label class="toggle-label">{{
+              editWidthHeight ? "Custamize" : "Auto"
+            }}</label>
             <mat-slide-toggle
               formControlName="widthToggle"
               (change)="makeChanges()"
@@ -163,7 +177,9 @@
             Padding
           </h3>
           <div>
-            <label>{{ editPadding ? "Seperate" : "All Sides" }}</label>
+            <label class="toggle-label">{{
+              editPadding ? "Seperate" : "All Sides"
+            }}</label>
             <mat-slide-toggle
               formControlName="paddingToggle"
               (change)="makeChanges()"
@@ -324,7 +340,9 @@
             Radius
           </h3>
           <div>
-            <label>{{ editRadius ? "Seperate" : "All Sides" }}</label>
+            <label class="toggle-label">{{
+              editRadius ? "Seperate" : "All Sides"
+            }}</label>
             <mat-slide-toggle
               formControlName="radiusToggle"
               (change)="makeChanges()"
@@ -478,8 +496,8 @@
   id="offcanvasTop"
   aria-labelledby="offcanvasTopLabel"
   data-bs-backdrop="false"
-  style="height: 150px"
 >
+  <!-- style="height: 150px" -->
   <div class="offcanvas-header">
     <p class="offcanvas-title" id="offcanvasTopLabel">Components</p>
     <i
@@ -489,23 +507,48 @@
     ></i>
   </div>
   <div class="offcanvas-body">
-    <div
-      class="example-list"
-      id="exampleList"
-      cdkDropList
-      (cdkDropListDropped)="drop($event, 'initial')"
-      [cdkDropListData]="numbers"
-      [cdkDropListConnectedTo]="['targetList']"
-      [cdkDropListSortPredicate]="sortPredicate"
-    >
+    <div [ngClass]="dragItems.length !== 2 ? 'disabled-div' : ''">
       <div
-        class="example-box"
-        *ngFor="let number of numbers"
-        [cdkDragData]="number"
-        cdkDrag
+        class="example-list"
+        id="exampleList"
+        cdkDropList
+        (cdkDropListDropped)="drop($event, 'initial')"
+        [cdkDropListData]="dragItems"
+        [cdkDropListConnectedTo]="['targetList']"
+        [cdkDropListSortPredicate]="sortPredicate"
       >
-        {{ number }}
+        <div
+          class="example-box menu-container"
+          *ngFor="let data of dragItems"
+          [cdkDragData]="dragItems"
+          cdkDrag
+        >
+          <p class="button-menu">{{ data }}</p>
+        </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">...</div>
     </div>
   </div>
 </div>

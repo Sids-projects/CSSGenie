@@ -22,8 +22,8 @@ export class ButtonComponent {
   showToolsKey: string = 'Text';
   changes: any = {};
 
-  numbers = [this.btnName, 2, 3, 4, 5, 6, 7, 8, 9];
-  droppedItems: number[] = [];
+  dragItems = ['Button', 'Input'];
+  droppedItems: any[] = [];
 
   ngOnInit() {
     this.btnForm = new FormGroup({
