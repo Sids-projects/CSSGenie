@@ -1,0 +1,511 @@
+<main>
+  <nav>
+    <i class="fa-solid fa-sort-up up"></i>
+    <div class="nav-menu">
+      <h3 (click)="showTools('Text')">
+        <span><i class="fa-solid fa-font"></i></span>
+        <span>Name</span>
+      </h3>
+      <h3 (click)="showTools('Size')">
+        <span
+          ><i class="fa-solid fa-up-right-and-down-left-from-center"></i
+        ></span>
+        <span>Size</span>
+      </h3>
+      <h3 (click)="showTools('Padding')">
+        <span><i class="fa-solid fa-minimize"></i></span>
+        <span>Padding</span>
+      </h3>
+      <h3 (click)="showTools('Colour')">
+        <span><i class="fa-solid fa-brush"></i></span>
+        <span>Colour</span>
+      </h3>
+      <h3 (click)="showTools('Border Radius')">
+        <span><i class="fa-solid fa-border-top-left"></i></span>
+        <span>Radius</span>
+      </h3>
+      <h3 (click)="showTools('Border')">
+        <span><i class="fa-solid fa-vector-square"></i></span>
+        <span>Border</span>
+      </h3>
+    </div>
+    <i class="fa-solid fa-caret-down down"></i>
+  </nav>
+
+  <section
+    class="component"
+    cdkDropList
+    id="targetList"
+    (cdkDropListDropped)="drop($event, 'target')"
+    [cdkDropListData]="droppedItems"
+    [cdkDropListConnectedTo]="['exampleList']"
+  >
+    <button *ngFor="let item of droppedItems" type="button" [ngStyle]="changes">
+      {{ btnName }}
+    </button>
+    <ng-component></ng-component>
+  </section>
+
+  <form [formGroup]="btnForm" class="editor-form">
+    <div class="editor-btns">
+      <button
+        class="code"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasTop"
+        aria-controls="offcanvasTop"
+      >
+        Tools
+      </button>
+      <button class="code"><i class="fa-solid fa-code"></i> Code</button>
+    </div>
+
+    <div class="editor">
+      <section *ngIf="showToolsKey === 'Text'">
+        <header>
+          <h3>
+            <span><i class="fa-solid fa-hashtag"></i></span> Text
+          </h3>
+        </header>
+        <div class="content">
+          <input
+            type="text"
+            formControlName="buttonName"
+            (keyup)="makeChanges()"
+          />
+
+          <div>
+            <label>Font Size</label>
+            <div class="d-flex align-items-center gap-2">
+              <input
+                type="range"
+                min="10"
+                max="50"
+                formControlName="fontSize"
+                class="slider"
+                (input)="makeChanges()"
+              />
+              <p>{{ this.btnForm.get("fontSize")?.value }}</p>
+            </div>
+          </div>
+
+          <div>
+            <label class="mb-2">Font Weight</label>
+            <div class="d-flex align-items-center gap-2">
+              <select formControlName="fontWeight" (change)="makeChanges()">
+                <option value="300">300</option>
+                <option value="400">400</option>
+                <option value="500">500</option>
+                <option value="600">600</option>
+                <option value="700">700</option>
+                <option value="800">800</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section *ngIf="showToolsKey === 'Size'">
+        <header>
+          <h3>
+            <span
+              ><i class="fa-solid fa-up-right-and-down-left-from-center"></i
+            ></span>
+            Size
+          </h3>
+          <div>
+            <label>{{ editWidthHeight ? "Custamize" : "Auto" }}</label>
+            <mat-slide-toggle
+              formControlName="widthToggle"
+              (change)="makeChanges()"
+            ></mat-slide-toggle>
+          </div>
+        </header>
+        <div *ngIf="!editWidthHeight">
+          <p class="desc">Now button can auto width & height itself.</p>
+        </div>
+        <div class="content" *ngIf="editWidthHeight">
+          <div>
+            <label>Width</label>
+            <div class="d-flex align-items-center gap-2">
+              <input
+                type="range"
+                min="50"
+                max="600"
+                formControlName="width"
+                class="slider"
+                (input)="makeChanges()"
+              />
+              <p>{{ this.btnForm.get("width")?.value }}</p>
+            </div>
+          </div>
+
+          <div>
+            <label>Height</label>
+            <div class="d-flex align-items-center gap-2">
+              <input
+                type="range"
+                min="30"
+                max="500"
+                formControlName="height"
+                class="slider"
+                (input)="makeChanges()"
+              />
+              <p>{{ this.btnForm.get("height")?.value }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section *ngIf="showToolsKey === 'Padding'">
+        <header>
+          <h3>
+            <span><i class="fa-solid fa-minimize"></i></span>
+            Padding
+          </h3>
+          <div>
+            <label>{{ editPadding ? "Seperate" : "All Sides" }}</label>
+            <mat-slide-toggle
+              formControlName="paddingToggle"
+              (change)="makeChanges()"
+            ></mat-slide-toggle>
+          </div>
+        </header>
+        <div class="content">
+          <div *ngIf="!editPadding">
+            <label>Equal Padding</label>
+            <div class="d-flex align-items-center gap-2">
+              <input
+                type="range"
+                min="0"
+                max="100"
+                formControlName="padding"
+                class="slider"
+                (input)="makeChanges()"
+                [disabled]="!editPadding"
+              />
+              <p>{{ this.btnForm.get("padding")?.value }}</p>
+            </div>
+          </div>
+
+          <div class="sub-content" *ngIf="editPadding">
+            <div>
+              <label
+                [ngStyle]="{
+                  color: editPadding
+                    ? 'rgb(127, 134, 155)'
+                    : 'rgb(172, 181, 209)'
+                }"
+                >Top</label
+              >
+              <div class="d-flex align-items-center gap-2">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  formControlName="paddingTop"
+                  class="slider"
+                  (input)="makeChanges()"
+                  [disabled]="editPadding"
+                />
+                <p>{{ this.btnForm.get("paddingTop")?.value }}</p>
+              </div>
+            </div>
+
+            <div>
+              <label
+                [ngStyle]="{
+                  color: editPadding
+                    ? 'rgb(127, 134, 155)'
+                    : 'rgb(172, 181, 209)'
+                }"
+                >Right</label
+              >
+              <div class="d-flex align-items-center gap-2">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  formControlName="paddingRight"
+                  class="slider"
+                  (input)="makeChanges()"
+                  [disabled]="editPadding"
+                />
+                <p>{{ this.btnForm.get("paddingRight")?.value }}</p>
+              </div>
+            </div>
+
+            <div>
+              <label
+                [ngStyle]="{
+                  color: editPadding
+                    ? 'rgb(127, 134, 155)'
+                    : 'rgb(172, 181, 209)'
+                }"
+                >Bottom</label
+              >
+              <div class="d-flex align-items-center gap-2">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  formControlName="paddingBottom"
+                  class="slider"
+                  (input)="makeChanges()"
+                  [disabled]="editPadding"
+                />
+                <p>{{ this.btnForm.get("paddingBottom")?.value }}</p>
+              </div>
+            </div>
+
+            <div>
+              <label
+                [ngStyle]="{
+                  color: editPadding
+                    ? 'rgb(127, 134, 155)'
+                    : 'rgb(172, 181, 209)'
+                }"
+                >Left</label
+              >
+              <div class="d-flex align-items-center gap-2">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  formControlName="paddingLeft"
+                  class="slider"
+                  (input)="makeChanges()"
+                  [disabled]="editPadding"
+                />
+                <p>{{ this.btnForm.get("paddingLeft")?.value }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section *ngIf="showToolsKey === 'Colour'">
+        <header>
+          <h3>
+            <span><i class="fa-solid fa-brush"></i></span>
+            Colour
+          </h3>
+        </header>
+        <div class="content">
+          <div>
+            <label class="mb-1">Background</label>
+            <div class="color-container">
+              <input
+                type="color"
+                formControlName="backgroundColor"
+                (change)="makeChanges()"
+              />
+              <p>{{ this.btnForm.get("backgroundColor")?.value }}</p>
+            </div>
+          </div>
+
+          <div>
+            <label class="mb-1">Text</label>
+            <div class="color-container">
+              <input
+                type="color"
+                formControlName="textColor"
+                (change)="makeChanges()"
+              />
+              <p>{{ this.btnForm.get("textColor")?.value }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section *ngIf="showToolsKey === 'Border Radius'">
+        <header>
+          <h3>
+            <span><i class="fa-solid fa-border-top-left"></i></span>
+            Radius
+          </h3>
+          <div>
+            <label>{{ editRadius ? "Seperate" : "All Sides" }}</label>
+            <mat-slide-toggle
+              formControlName="radiusToggle"
+              (change)="makeChanges()"
+            ></mat-slide-toggle>
+          </div>
+        </header>
+        <div class="content">
+          <div *ngIf="!editRadius">
+            <label>Equal Border Radius</label>
+            <div class="d-flex align-items-center gap-2">
+              <input
+                type="range"
+                min="0"
+                max="100"
+                formControlName="radius"
+                class="slider"
+                (input)="makeChanges()"
+                [disabled]="!editRadius"
+              />
+              <p>{{ this.btnForm.get("radius")?.value }}</p>
+            </div>
+          </div>
+
+          <div class="sub-content" *ngIf="editRadius">
+            <div>
+              <label>Top Left</label>
+              <div class="d-flex align-items-center gap-2">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  formControlName="radiusLTop"
+                  class="slider"
+                  (input)="makeChanges()"
+                  [disabled]="editRadius"
+                />
+                <p>{{ this.btnForm.get("radiusLTop")?.value }}</p>
+              </div>
+            </div>
+
+            <div>
+              <label>Top Right</label>
+              <div class="d-flex align-items-center gap-2">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  formControlName="radiusRTop"
+                  class="slider"
+                  (input)="makeChanges()"
+                  [disabled]="editRadius"
+                />
+                <p>{{ this.btnForm.get("radiusRTop")?.value }}</p>
+              </div>
+            </div>
+
+            <div>
+              <label>Bottom Right</label>
+              <div class="d-flex align-items-center gap-2">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  formControlName="radiusRBottom"
+                  class="slider"
+                  (input)="makeChanges()"
+                  [disabled]="editRadius"
+                />
+                <p>{{ this.btnForm.get("radiusRBottom")?.value }}</p>
+              </div>
+            </div>
+
+            <div>
+              <label>Bottom Left</label>
+              <div class="d-flex align-items-center gap-2">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  formControlName="radiusLBottom"
+                  class="slider"
+                  (input)="makeChanges()"
+                  [disabled]="editRadius"
+                />
+                <p>{{ this.btnForm.get("radiusLBottom")?.value }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section *ngIf="showToolsKey === 'Border'">
+        <header>
+          <h3>
+            <span><i class="fa-solid fa-vector-square"></i></span>
+            Border
+          </h3>
+        </header>
+        <div class="content">
+          <div>
+            <label>Border Width</label>
+            <div class="d-flex align-items-center gap-2">
+              <input
+                type="range"
+                min="0"
+                max="100"
+                formControlName="borderWidth"
+                class="slider"
+                (input)="makeChanges()"
+              />
+              <p>{{ this.btnForm.get("borderWidth")?.value }}</p>
+            </div>
+          </div>
+          <div>
+            <label class="mb-2">Border Style</label>
+            <div class="d-flex align-items-center gap-2">
+              <select formControlName="borderStyle" (change)="makeChanges()">
+                <option value="solid">solid</option>
+                <option value="dotted">Dotted</option>
+                <option value="dashed">Dashed</option>
+                <option value="inset">Inset</option>
+                <option value="outside">Outside</option>
+                <option value="ridge">Ridge</option>
+                <option value="groove">Groove</option>
+                <option value="double">Double</option>
+                <option value="none">None</option>
+                <option value="hidden">Hidden</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="mb-2">Border Color</label>
+            <div class="color-container">
+              <input
+                type="color"
+                formControlName="borderColor"
+                (change)="makeChanges()"
+              />
+              <p>{{ this.btnForm.get("borderColor")?.value }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </form>
+</main>
+
+<div
+  class="offcanvas offcanvas-top"
+  tabindex="-1"
+  id="offcanvasTop"
+  aria-labelledby="offcanvasTopLabel"
+  data-bs-backdrop="false"
+  style="height: 150px"
+>
+  <div class="offcanvas-header">
+    <p class="offcanvas-title" id="offcanvasTopLabel">Components</p>
+    <i
+      class="fa-solid fa-xmark"
+      data-bs-dismiss="offcanvas"
+      style="position: absolute; top: 10px; right: 10px"
+    ></i>
+  </div>
+  <div class="offcanvas-body">
+    <div
+      class="example-list"
+      id="exampleList"
+      cdkDropList
+      (cdkDropListDropped)="drop($event, 'initial')"
+      [cdkDropListData]="numbers"
+      [cdkDropListConnectedTo]="['targetList']"
+      [cdkDropListSortPredicate]="sortPredicate"
+    >
+      <div
+        class="example-box"
+        *ngFor="let number of numbers"
+        [cdkDragData]="number"
+        cdkDrag
+      >
+        {{ number }}
+      </div>
+    </div>
+  </div>
+</div>
