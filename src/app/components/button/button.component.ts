@@ -4,7 +4,6 @@ import {
   CdkDragDrop,
   moveItemInArray,
   CdkDrag,
-  CdkDropList,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 
@@ -22,7 +21,13 @@ export class ButtonComponent {
   showToolsKey: string = 'Text';
   changes: any = {};
 
-  dragItems = ['Button', 'Input'];
+  customizeKey: boolean = true;
+  componentsKey: boolean = false;
+
+  dragItems = [
+    { title: 'Button', class: 'btnView', content: 'Button' },
+    { title: 'Input', class: 'impView', content: 'Input' },
+  ];
   droppedItems: any[] = [];
 
   ngOnInit() {
@@ -164,5 +169,15 @@ export class ButtonComponent {
 
   sortPredicate(index: number, item: CdkDrag<number>) {
     return (index + 1) % 2 === item.data % 2;
+  }
+
+  customize() {
+    this.customizeKey = true;
+    this.componentsKey = false;
+  }
+
+  components() {
+    this.customizeKey = false;
+    this.componentsKey = true;
   }
 }

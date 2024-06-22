@@ -4,7 +4,7 @@
     <div class="nav-menu">
       <h3 (click)="showTools('Text')">
         <span><i class="fa-solid fa-font"></i></span>
-        <span>Name</span>
+        <span>Text</span>
       </h3>
       <h3 (click)="showTools('Size')">
         <span
@@ -20,10 +20,7 @@
         <span><i class="fa-solid fa-brush"></i></span>
         <span>Colour</span>
       </h3>
-      <h3 (click)="showTools('Border Radius')">
-        <span><i class="fa-solid fa-border-top-left"></i></span>
-        <span>Radius</span>
-      </h3>
+
       <h3 (click)="showTools('Border')">
         <span><i class="fa-solid fa-vector-square"></i></span>
         <span>Border</span>
@@ -33,20 +30,20 @@
   </nav>
 
   <section
-    class="component"
+    class="artboard"
     cdkDropList
     id="targetList"
     (cdkDropListDropped)="drop($event, 'target')"
     [cdkDropListData]="droppedItems"
-    [cdkDropListConnectedTo]="['exampleList']"
+    [cdkDropListConnectedTo]="['componentList-key']"
   >
     <div *ngFor="let data of droppedItems">
-      <div *ngIf="data === 'Button'">
+      <div *ngIf="data.content === 'Button'">
         <button [ngStyle]="changes" type="button">
           {{ btnName }}
         </button>
       </div>
-      <div *ngIf="data === 'Input'">
+      <div *ngIf="data.content === 'Input'">
         <input type="text" />
       </div>
     </div>
@@ -55,23 +52,20 @@
   <form [formGroup]="btnForm" class="editor-form">
     <div class="editor-btns">
       <button
-        class="code"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasTop"
-        aria-controls="offcanvasTop"
+        [ngClass]="customizeKey ? 'menu active-btn01' : 'menu'"
+        (click)="customize()"
       >
-        <i class="fa-solid fa-store"></i> Tools
+        customize
       </button>
       <button
-        class="code"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
+        [ngClass]="componentsKey ? 'code active-btn02' : 'code'"
+        (click)="components()"
       >
-        <i class="fa-solid fa-code"></i> Code
+        components
       </button>
     </div>
 
-    <div class="editor">
+    <div class="editor" *ngIf="customizeKey">
       <section *ngIf="showToolsKey === 'Text'">
         <header>
           <h3>
@@ -79,11 +73,14 @@
           </h3>
         </header>
         <div class="content">
-          <input
-            type="text"
-            formControlName="buttonName"
-            (keyup)="makeChanges()"
-          />
+          <div>
+            <label class="mb-2">Name</label>
+            <input
+              type="text"
+              formControlName="buttonName"
+              (keyup)="makeChanges()"
+            />
+          </div>
 
           <div>
             <label>Font Size</label>
@@ -135,7 +132,10 @@
           </div>
         </header>
         <div *ngIf="!editWidthHeight">
-          <p class="desc">Now button can auto width & height itself.</p>
+          <p class="components-desc">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Now button can auto width & height itself.</span>
+          </p>
         </div>
         <div class="content" *ngIf="editWidthHeight">
           <div>
@@ -330,11 +330,62 @@
               <p>{{ this.btnForm.get("textColor")?.value }}</p>
             </div>
           </div>
+
+          <div>
+            <label class="mb-2">Border</label>
+            <div class="color-container">
+              <input
+                type="color"
+                formControlName="borderColor"
+                (change)="makeChanges()"
+              />
+              <p>{{ this.btnForm.get("borderColor")?.value }}</p>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section *ngIf="showToolsKey === 'Border Radius'">
+      <section *ngIf="showToolsKey === 'Border'">
         <header>
+          <h3>
+            <span><i class="fa-solid fa-vector-square"></i></span>
+            Border
+          </h3>
+        </header>
+        <div class="content">
+          <div>
+            <label>Border Width</label>
+            <div class="d-flex align-items-center gap-2">
+              <input
+                type="range"
+                min="0"
+                max="100"
+                formControlName="borderWidth"
+                class="slider"
+                (input)="makeChanges()"
+              />
+              <p>{{ this.btnForm.get("borderWidth")?.value }}</p>
+            </div>
+          </div>
+          <div>
+            <label class="mb-2">Border Style</label>
+            <div class="d-flex align-items-center gap-2">
+              <select formControlName="borderStyle" (change)="makeChanges()">
+                <option value="solid">solid</option>
+                <option value="dotted">Dotted</option>
+                <option value="dashed">Dashed</option>
+                <option value="inset">Inset</option>
+                <option value="outside">Outside</option>
+                <option value="ridge">Ridge</option>
+                <option value="groove">Groove</option>
+                <option value="double">Double</option>
+                <option value="none">None</option>
+                <option value="hidden">Hidden</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <header class="mt-4">
           <h3>
             <span><i class="fa-solid fa-border-top-left"></i></span>
             Radius
@@ -433,122 +484,94 @@
           </div>
         </div>
       </section>
+    </div>
 
-      <section *ngIf="showToolsKey === 'Border'">
-        <header>
-          <h3>
-            <span><i class="fa-solid fa-vector-square"></i></span>
-            Border
-          </h3>
-        </header>
-        <div class="content">
-          <div>
-            <label>Border Width</label>
-            <div class="d-flex align-items-center gap-2">
-              <input
-                type="range"
-                min="0"
-                max="100"
-                formControlName="borderWidth"
-                class="slider"
-                (input)="makeChanges()"
-              />
-              <p>{{ this.btnForm.get("borderWidth")?.value }}</p>
-            </div>
-          </div>
-          <div>
-            <label class="mb-2">Border Style</label>
-            <div class="d-flex align-items-center gap-2">
-              <select formControlName="borderStyle" (change)="makeChanges()">
-                <option value="solid">solid</option>
-                <option value="dotted">Dotted</option>
-                <option value="dashed">Dashed</option>
-                <option value="inset">Inset</option>
-                <option value="outside">Outside</option>
-                <option value="ridge">Ridge</option>
-                <option value="groove">Groove</option>
-                <option value="double">Double</option>
-                <option value="none">None</option>
-                <option value="hidden">Hidden</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <label class="mb-2">Border Color</label>
-            <div class="color-container">
-              <input
-                type="color"
-                formControlName="borderColor"
-                (change)="makeChanges()"
-              />
-              <p>{{ this.btnForm.get("borderColor")?.value }}</p>
-            </div>
+    <div class="components" *ngIf="componentsKey">
+      <p class="components-desc">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>Drag and drop the component you want to create.</span>
+      </p>
+      <div [ngClass]="dragItems.length !== 2 ? 'disabled-div' : ''">
+        <div
+          class="component-list"
+          id="componentList-key"
+          cdkDropList
+          (cdkDropListDropped)="drop($event, 'initial')"
+          [cdkDropListData]="dragItems"
+          [cdkDropListConnectedTo]="['targetList']"
+          [cdkDropListSortPredicate]="sortPredicate"
+        >
+          <div
+            class="component-items menu-container"
+            *ngFor="let data of dragItems"
+            [cdkDragData]="dragItems"
+            cdkDrag
+          >
+            <ng-container *ngIf="data.content === 'Button'">
+              <p [class]="data.class">{{ data.content }}</p>
+            </ng-container>
+
+            <ng-container *ngIf="data.content === 'Input'">
+              <p [class]="data.class">{{ data.content }}</p>
+            </ng-container>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
+
+    <div class="code-btn m-3">
+      <button
+        class="btn btn-primary"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasExample"
+        aria-controls="offcanvasExample"
+      >
+        Code
+      </button>
     </div>
   </form>
 </main>
 
 <div
-  class="offcanvas offcanvas-top"
+  class="offcanvas offcanvas-start"
   tabindex="-1"
-  id="offcanvasTop"
-  aria-labelledby="offcanvasTopLabel"
-  data-bs-backdrop="false"
+  id="offcanvasExample"
+  aria-labelledby="offcanvasExampleLabel"
+  style="min-width: 300px; width: 100%; max-width: 500px"
 >
-  <!-- style="height: 150px" -->
   <div class="offcanvas-header">
-    <p class="offcanvas-title" id="offcanvasTopLabel">Components</p>
-    <i
-      class="fa-solid fa-xmark"
+    <p class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</p>
+    <button
+      type="button"
+      class="btn-close"
       data-bs-dismiss="offcanvas"
-      style="position: absolute; top: 10px; right: 10px"
-    ></i>
+      aria-label="Close"
+    ></button>
   </div>
   <div class="offcanvas-body">
-    <div [ngClass]="dragItems.length !== 2 ? 'disabled-div' : ''">
-      <div
-        class="example-list"
-        id="exampleList"
-        cdkDropList
-        (cdkDropListDropped)="drop($event, 'initial')"
-        [cdkDropListData]="dragItems"
-        [cdkDropListConnectedTo]="['targetList']"
-        [cdkDropListSortPredicate]="sortPredicate"
-      >
-        <div
-          class="example-box menu-container"
-          *ngFor="let data of dragItems"
-          [cdkDragData]="dragItems"
-          cdkDrag
-        >
-          <p class="button-menu">{{ data }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+    <pre>
+<code>
+&lt;!-- Html --&gt;
+&lt;bottom type="button" class="button-style"&gt;
+  {{btnName}}
+&lt;/bottom&gt;
 
-<div
-  class="modal fade"
-  id="exampleModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-xl modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">...</div>
-    </div>
+// css
+.button-style &#123;
+  <ng-container *ngIf="this.btnForm.get('fontSize')?.value">font-size: {{ this.btnForm.get('fontSize')?.value }}px;</ng-container>
+  <ng-container *ngIf="this.btnForm.get('fontWeight')?.value">font-weight: {{ this.btnForm.get('fontWeight')?.value }};</ng-container>
+  <ng-container *ngIf="this.btnForm.get('width')?.value">width: {{ btnForm.get('width')?.value === 'auto' ? 'auto;' : (btnForm.get('width')?.value + 'px;') }}</ng-container>
+  <ng-container *ngIf="this.btnForm.get('height')?.value">height: {{ btnForm.get('height')?.value === 'auto' ? 'auto;' : (btnForm.get('height')?.value + 'px;') }}</ng-container>
+  <ng-container *ngIf="this.btnForm.get('padding')?.value">padding: {{ this.btnForm.get('paddingTop')?.value }}px; {{this.btnForm.get('paddingRight')?.value}}px; {{this.btnForm.get('paddingBottom')?.value}}px; {{this.btnForm.get('paddingLeft')?.value}}px;</ng-container>
+  <ng-container *ngIf="this.btnForm.get('backgroundColor')?.value">background-color: {{ this.btnForm.get('backgroundColor')?.value }};</ng-container>
+  <ng-container *ngIf="this.btnForm.get('textColor')?.value">color: {{ this.btnForm.get('textColor')?.value }};</ng-container>
+  <ng-container *ngIf="this.btnForm.get('radius')?.value">radius: {{ this.btnForm.get('radiusLTop')?.value }}px; {{this.btnForm.get('radiusRTop')?.value}}px; {{this.btnForm.get('radiusRBottom')?.value}}px; {{this.btnForm.get('radiusLBottom')?.value}}px;</ng-container>
+  <ng-container *ngIf="this.btnForm.get('borderWidth')?.value">border-width: {{ this.btnForm.get('borderWidth')?.value }}px;</ng-container>
+  <ng-container *ngIf="this.btnForm.get('borderStyle')?.value">border-style: {{ this.btnForm.get('borderStyle')?.value }}</ng-container>
+  <ng-container *ngIf="this.btnForm.get('borderColor')?.value">border-color: {{ this.btnForm.get('borderColor')?.value }}</ng-container>
+&#125;
+</code>
+</pre>
   </div>
 </div>
