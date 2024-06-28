@@ -23,6 +23,7 @@ export class EditorComponent {
 
   customizeKey: boolean = true;
   componentsKey: boolean = false;
+  settingsKey: boolean = false;
 
   dragItems = [
     { title: 'Button', class: 'btnView', content: 'Button' },
@@ -148,6 +149,9 @@ export class EditorComponent {
 
   showTools(param: string) {
     this.showToolsKey = param;
+    this.customizeKey = true;
+    this.componentsKey = false;
+    this.settingsKey = false;
   }
 
   drop(event: CdkDragDrop<any[]>, listType: string) {
@@ -174,10 +178,18 @@ export class EditorComponent {
   customize() {
     this.customizeKey = true;
     this.componentsKey = false;
+    this.settingsKey = false;
   }
 
   components() {
     this.customizeKey = false;
     this.componentsKey = true;
+    this.settingsKey = false;
+  }
+
+  settings() {
+    this.customizeKey = false;
+    this.componentsKey = false;
+    this.settingsKey = true;
   }
 }

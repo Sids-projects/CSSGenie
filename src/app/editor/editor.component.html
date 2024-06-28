@@ -63,6 +63,12 @@
       >
         components
       </button>
+      <button
+        [ngClass]="settingsKey ? 'settings active-btn03' : 'settings'"
+        (click)="settings()"
+      >
+        <i class="fa-solid fa-sliders"></i>
+      </button>
     </div>
 
     <div class="editor" *ngIf="customizeKey">
@@ -518,6 +524,8 @@
         </div>
       </div>
     </div>
+
+    <div class="components" *ngIf="settingsKey"></div>
 
     <div class="code-btn m-3">
       <button
