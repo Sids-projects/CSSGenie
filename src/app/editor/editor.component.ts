@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   CdkDragDrop,
@@ -30,6 +30,10 @@ export class EditorComponent {
     { title: 'Input', class: 'impView', content: 'Input' },
   ];
   droppedItems: any[] = [];
+
+  title = 'CSSGenie';
+  isDarkTheme: boolean = false;
+  constructor(private renderer: Renderer2) {}
 
   ngOnInit() {
     this.btnForm = new FormGroup({
@@ -64,6 +68,29 @@ export class EditorComponent {
     });
 
     this.makeChanges();
+  }
+
+  toggleTheme() {
+    this.isDarkTheme = !this.isDarkTheme;
+    if (this.isDarkTheme) {
+      this.renderer.addClass(document.body, 'dark-theme');
+    } else {
+      this.renderer.removeClass(document.body, 'dark-theme');
+    }
+  }
+
+  scrollUp() {
+    const navMenu = document.querySelector('.nav-menu');
+    if (navMenu) {
+      navMenu.scrollBy({ top: -80, behavior: 'smooth' });
+    }
+  }
+
+  scrollDown() {
+    const navMenu = document.querySelector('.nav-menu');
+    if (navMenu) {
+      navMenu.scrollBy({ top: 80, behavior: 'smooth' });
+    }
   }
 
   makeChanges() {

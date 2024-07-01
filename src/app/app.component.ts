@@ -6,14 +6,7 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'CSSGenie';
-  isDarkTheme: boolean = false;
-  constructor(private renderer: Renderer2) {}
+  constructor() {}
 
   ngOnInit(): void {}
-
-  toggleTheme() {
-    this.isDarkTheme = true;
-    this.renderer.addClass(document.body, 'dark-theme');
-  }
 }

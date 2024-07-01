@@ -1,32 +1,47 @@
 <main>
   <nav>
-    <i class="fa-solid fa-sort-up up"></i>
+    <i class="fa-solid fa-sort-up up" (click)="scrollUp()"></i>
     <div class="nav-menu">
-      <h3 (click)="showTools('Text')">
+      <h3
+        (click)="showTools('Text')"
+        [ngClass]="showToolsKey === 'Text' ? 'active-navMenu' : ''"
+      >
         <span><i class="fa-solid fa-font"></i></span>
         <span>Text</span>
       </h3>
-      <h3 (click)="showTools('Size')">
+      <h3
+        (click)="showTools('Size')"
+        [ngClass]="showToolsKey === 'Size' ? 'active-navMenu' : ''"
+      >
         <span
           ><i class="fa-solid fa-up-right-and-down-left-from-center"></i
         ></span>
         <span>Size</span>
       </h3>
-      <h3 (click)="showTools('Padding')">
-        <span><i class="fa-solid fa-minimize"></i></span>
+      <h3
+        (click)="showTools('Padding')"
+        [ngClass]="showToolsKey === 'Padding' ? 'active-navMenu' : ''"
+      >
+        <span><i class="fa-solid fa-arrows-left-right-to-line"></i></span>
         <span>Padding</span>
       </h3>
-      <h3 (click)="showTools('Colour')">
-        <span><i class="fa-solid fa-brush"></i></span>
+      <h3
+        (click)="showTools('Colour')"
+        [ngClass]="showToolsKey === 'Colour' ? 'active-navMenu' : ''"
+      >
+        <span><i class="fa-solid fa-fill-drip"></i></span>
         <span>Colour</span>
       </h3>
 
-      <h3 (click)="showTools('Border')">
+      <h3
+        (click)="showTools('Border')"
+        [ngClass]="showToolsKey === 'Border' ? 'active-navMenu' : ''"
+      >
         <span><i class="fa-solid fa-vector-square"></i></span>
         <span>Border</span>
       </h3>
     </div>
-    <i class="fa-solid fa-caret-down down"></i>
+    <i class="fa-solid fa-caret-down down" (click)="scrollDown()"></i>
   </nav>
 
   <section
@@ -525,7 +540,52 @@
       </div>
     </div>
 
-    <div class="components" *ngIf="settingsKey"></div>
+    <div class="settings" *ngIf="settingsKey">
+      <header>
+        <h3>
+          <span> <i class="fa-solid fa-sliders"></i></span> Settings
+        </h3>
+      </header>
+      <div class="settings-container">
+        <div class="setting-option">
+          <p>Appearance</p>
+          <div class="option-container">
+            <div class="option">
+              <h3>
+                <span><i class="fa-solid fa-brush"></i></span>
+                Dark Mode
+              </h3>
+              <mat-slide-toggle (change)="toggleTheme()"></mat-slide-toggle>
+            </div>
+            <div class="option">
+              <h3>
+                <span><i class="fa-solid fa-palette"></i></span> Theme
+              </h3>
+              <input type="color" />
+            </div>
+          </div>
+        </div>
+
+        <div class="setting-option">
+          <p>Toolbar</p>
+          <div class="option-container">
+            <div class="option">
+              <h3>
+                <span><i class="fa-solid fa-tag"></i></span> Show Label
+              </h3>
+              <mat-slide-toggle></mat-slide-toggle>
+            </div>
+            <div class="option">
+              <h3>
+                <span><i class="fa-solid fa-square-arrow-up-right"></i></span>
+                Full view
+              </h3>
+              <mat-slide-toggle></mat-slide-toggle>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="code-btn m-3">
       <button
