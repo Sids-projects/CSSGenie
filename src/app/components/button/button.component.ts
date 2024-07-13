@@ -21,6 +21,9 @@ export class ButtonComponent {
   showToolsKey: string = 'Text';
   changes: any = {};
 
+  appContentStyle: string = 'grid-template-columns: 6.4rem 30rem 1fr';
+  showAppMenu: boolean = true;
+
   customizeKey: boolean = true;
   componentsKey: boolean = false;
 
@@ -148,6 +151,14 @@ export class ButtonComponent {
 
   showTools(param: string) {
     this.showToolsKey = param;
+
+    if (param !== '') {
+      this.appContentStyle = 'grid-template-columns: 6.4rem 30rem 1fr';
+      this.showAppMenu = true;
+    } else {
+      this.appContentStyle = 'grid-template-columns: 6.4rem 1fr';
+      this.showAppMenu = false;
+    }
   }
 
   drop(event: CdkDragDrop<any[]>, listType: string) {
