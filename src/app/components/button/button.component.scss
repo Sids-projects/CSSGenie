@@ -1,99 +1,24 @@
 #app-main {
   height: 100dvh;
   display: grid;
-  grid-template-rows: 7rem 1fr;
+  grid-template-columns: 1fr 30rem;
   color: #5c6471 !important;
+  background-color: #f6f6f6;
 }
 
-#app-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.4rem;
-  border-bottom: 0.18rem solid #dee4ea;
-  background-color: white;
-
-  .set-01 {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0.4rem;
-    font-weight: 600 !important;
-  }
-
-  .set-02 {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 1rem;
-
-    button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      font-size: 1.2rem !important;
-      border-radius: 0.6rem;
-      padding: 0.8rem 1.2rem;
-      border: none;
-      background-color: #4361ee;
-      color: white;
-      letter-spacing: 0.1rem;
-      font-weight: 600;
-
-      span {
-        font-size: 2rem !important;
-      }
-    }
-  }
-}
-
-#app-content {
-  display: grid;
+#app-menu-box {
   height: 100%;
-}
-
-#app-tools {
-  border-right: 0.18rem solid #dee4ea;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding: 2.4rem 1rem;
-
-  p {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-
-    span:nth-child(1) {
-      font-size: 2.8rem !important;
-      margin-bottom: 0.4rem;
-    }
-
-    span:nth-child(2) {
-      font-size: 1.1rem !important;
-      font-weight: 600;
-    }
-  }
 }
 
 #app-menus {
-  background-color: #f6f6f6;
   height: 100%;
-
-  #app-menu-box {
-    padding-top: 1rem;
-  }
+  padding: 1.2rem 1.2rem 1.2rem 0;
 
   #app-menu-List {
+    border: 0.18rem solid #dee4ea;
     background-color: white;
-    border-top: 0.18rem solid #dee4ea;
-    border-right: 0.18rem solid #dee4ea;
-    border-bottom: 0.18rem solid #dee4ea;
-    border-radius: 0 1rem 1rem 0;
+    border-radius: 0.8rem;
+    height: 100%;
 
     header {
       border-bottom: 0.18rem solid #dee4ea;
@@ -274,18 +199,47 @@
   }
 }
 
-#app-artboard {
-  background-color: #f6f6f6;
+#app-header {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1.2rem 0 0 0;
+
+  #app-tools {
+    border: 0.18rem solid #dee4ea;
+    background-color: white;
+    border-radius: 1rem;
+    padding: 1rem 2rem;
+    display: flex;
+    gap: 3rem;
+
+    p {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+  }
+}
+
+#app-content {
+  display: grid;
+  height: 100%;
+}
+
+#app-artboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.4rem;
 
   #app-canvas {
-    width: 94%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     background-color: white;
     border: 0.18rem solid #dee4ea;
-    border-radius: 0.6rem;
+    border-radius: 0.8rem;
     display: grid;
     place-content: center;
   }

@@ -1,422 +1,27 @@
 <main id="app-main">
-  <header id="app-header">
-    <div class="set-01">
-      <span class="material-symbols-outlined"> colors </span>
-      <p>CssGenie</p>
-    </div>
-    <div class="set-02">
-      <button (click)="showTools('components')">
-        <span class="material-symbols-outlined"> package_2 </span>components
-      </button>
-      <button><span class="material-symbols-outlined"> code </span>Code</button>
-    </div>
-  </header>
   <section id="app-content" [style]="appContentStyle">
-    <nav id="app-tools">
-      <p (click)="showTools('Text')">
-        <span class="material-symbols-outlined"> format_shapes </span>
-      </p>
-      <p (click)="showTools('Size')">
-        <span class="material-symbols-outlined"> aspect_ratio </span>
-      </p>
-      <p (click)="showTools('Padding')">
-        <span class="material-symbols-outlined"> format_letter_spacing </span>
-      </p>
-      <p (click)="showTools('Colour')">
-        <span class="material-symbols-outlined"> palette </span>
-      </p>
-      <p (click)="showTools('Border')">
-        <span class="material-symbols-outlined"> crop_free </span>
-      </p>
-    </nav>
-
-    <form [formGroup]="btnForm" id="app-menus" *ngIf="showAppMenu">
-      <section [ngSwitch]="showToolsKey" id="app-menu-box">
-        <section *ngSwitchCase="'Text'" id="app-menu-List">
-          <header>
-            <h3>Text</h3>
-            <span class="material-symbols-outlined" (click)="showTools('')">
-              close
-            </span>
-          </header>
-          <div class="tools-box">
-            <div class="tools b-bottom">
-              <label>Button Name</label>
-              <input
-                type="text"
-                formControlName="buttonName"
-                (keyup)="makeChanges()"
-              />
-            </div>
-
-            <div class="tools-grid b-bottom">
-              <div class="grid02-expand">
-                <label>Font</label>
-                <input type="text" formControlName="buttonName" />
-              </div>
-              <div>
-                <label>Font Size</label>
-                <input type="text" formControlName="buttonName" />
-              </div>
-              <div>
-                <label>Font Weight</label>
-                <select formControlName="fontWeight" (change)="makeChanges()">
-                  <option value="300">300</option>
-                  <option value="400">400</option>
-                  <option value="500">500</option>
-                  <option value="600">600</option>
-                  <option value="700">700</option>
-                  <option value="800">800</option>
-                </select>
-              </div>
-              <div>
-                <label>Line Height</label>
-                <input type="text" formControlName="buttonName" />
-              </div>
-              <div>
-                <label>Letter spacing</label>
-                <input type="text" formControlName="buttonName" />
-              </div>
-            </div>
-
-            <div class="tools-flex">
-              <div>
-                <label>Text Align</label>
-                <div class="text-aling">
-                  <span class="material-symbols-outlined" id="active-menu">
-                    format_align_left
-                  </span>
-                  <span class="material-symbols-outlined">
-                    format_align_justify
-                  </span>
-                  <span class="material-symbols-outlined">
-                    format_align_center
-                  </span>
-                  <span class="material-symbols-outlined">
-                    format_align_right
-                  </span>
-                </div>
-              </div>
-
-              <div>
-                <label>Text Color</label>
-                <div class="text-color">
-                  <div>
-                    <input
-                      type="color"
-                      formControlName="textColor"
-                      (change)="makeChanges()"
-                    />
-                    <p>{{ btnForm.get("textColor")!.value }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section *ngSwitchCase="'Size'" id="app-menu-List">
-          <header>
-            <h3>Size</h3>
-            <span class="material-symbols-outlined" (click)="showTools('')">
-              close
-            </span>
-          </header>
-
-          <div class="menu-desc">
-            <p>
-              <span class="material-symbols-outlined"> error </span>
-              <span>By default size is auto</span>
-            </p>
-          </div>
-
-          <div class="tools-box">
-            <div class="tools-flex">
-              <div>
-                <label>Width</label>
-                <input
-                  type="range"
-                  min="50"
-                  max="600"
-                  formControlName="width"
-                  class="slider"
-                  (input)="makeChanges()"
-                />
-                <p>{{ this.btnForm.get("width")?.value }}</p>
-              </div>
-              <div>
-                <label>Height</label>
-                <input
-                  type="range"
-                  min="30"
-                  max="500"
-                  formControlName="height"
-                  class="slider"
-                  (input)="makeChanges()"
-                />
-                <p>{{ this.btnForm.get("height")?.value }}</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section *ngSwitchCase="'Padding'" id="app-menu-List">
-          <header>
-            <h3>Padding</h3>
-            <span class="material-symbols-outlined" (click)="showTools('')">
-              close
-            </span>
-          </header>
-          <div class="tools-box">
-            <div class="tools-grid">
-              <div class="grid02-expand">
-                <label>Equal Padding</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  formControlName="padding"
-                  class="slider"
-                  (input)="makeChanges()"
-                  [disabled]="!editPadding"
-                />
-              </div>
-
-              <div>
-                <label>Top</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  formControlName="paddingTop"
-                  class="slider"
-                  (input)="makeChanges()"
-                  [disabled]="editPadding"
-                />
-              </div>
-
-              <div>
-                <label>Right</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  formControlName="paddingRight"
-                  class="slider"
-                  (input)="makeChanges()"
-                  [disabled]="editPadding"
-                />
-              </div>
-
-              <div>
-                <label>Bottom</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  formControlName="paddingBottom"
-                  class="slider"
-                  (input)="makeChanges()"
-                  [disabled]="editPadding"
-                />
-              </div>
-
-              <div>
-                <label>Left</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  formControlName="paddingLeft"
-                  class="slider"
-                  (input)="makeChanges()"
-                  [disabled]="editPadding"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section *ngSwitchCase="'Colour'" id="app-menu-List">
-          <header>
-            <h3>Colour</h3>
-            <span class="material-symbols-outlined" (click)="showTools('')">
-              close
-            </span>
-          </header>
-          <div class="tools-box">
-            <div class="tools-flex">
-              <div>
-                <label>Background</label>
-                <div class="text-color">
-                  <div>
-                    <input
-                      type="color"
-                      formControlName="backgroundColor"
-                      (change)="makeChanges()"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <label>Border</label>
-                <div class="text-color">
-                  <div>
-                    <input
-                      type="color"
-                      formControlName="borderColor"
-                      (change)="makeChanges()"
-                    />
-                    <p>{{ this.btnForm.get("borderColor")?.value }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section *ngSwitchCase="'Border'" id="app-menu-List">
-          <header>
-            <h3>Border</h3>
-            <span class="material-symbols-outlined" (click)="showTools('')">
-              close
-            </span>
-          </header>
-          <div class="tools-box">
-            <div class="tools-flex b-bottom">
-              <div>
-                <label>Border Width</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  formControlName="borderWidth"
-                  class="slider"
-                  (input)="makeChanges()"
-                />
-              </div>
-              <div>
-                <label>Border Style</label>
-                <select formControlName="borderStyle" (change)="makeChanges()">
-                  <option value="solid">solid</option>
-                  <option value="dotted">Dotted</option>
-                  <option value="dashed">Dashed</option>
-                  <option value="inset">Inset</option>
-                  <option value="outside">Outside</option>
-                  <option value="ridge">Ridge</option>
-                  <option value="groove">Groove</option>
-                  <option value="double">Double</option>
-                  <option value="none">None</option>
-                  <option value="hidden">Hidden</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="tools-grid b-bottom">
-              <div class="grid02-expand">
-                <label>Equal Border Radius</label>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  formControlName="radius"
-                  class="slider"
-                  (input)="makeChanges()"
-                  [disabled]="!editRadius"
-                />
-              </div>
-
-              <div>
-                <label>Top Left</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  formControlName="radiusLTop"
-                  class="slider"
-                  (input)="makeChanges()"
-                  [disabled]="editRadius"
-                />
-              </div>
-
-              <div>
-                <label>Top Right</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  formControlName="radiusRTop"
-                  class="slider"
-                  (input)="makeChanges()"
-                  [disabled]="editRadius"
-                />
-              </div>
-
-              <div>
-                <label>Bottom Right</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  formControlName="radiusRBottom"
-                  class="slider"
-                  (input)="makeChanges()"
-                  [disabled]="editRadius"
-                />
-              </div>
-
-              <div>
-                <label>Bottom Left</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  formControlName="radiusLBottom"
-                  class="slider"
-                  (input)="makeChanges()"
-                  [disabled]="editRadius"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section *ngSwitchCase="'components'" id="app-menu-List">
-          <div class="menu-desc">
-            <p>
-              <span class="material-symbols-outlined"> error </span>
-              <span>Drag and drop the component you want to create.</span>
-            </p>
-          </div>
-          <div [ngClass]="dragItems.length !== 2 ? 'disabled-div' : ''">
-            <div
-              class="component-list"
-              id="componentList-key"
-              cdkDropList
-              (cdkDropListDropped)="drop($event, 'initial')"
-              [cdkDropListData]="dragItems"
-              [cdkDropListConnectedTo]="['app-canvas']"
-              [cdkDropListSortPredicate]="sortPredicate"
-            >
-              <div
-                *ngFor="let data of dragItems"
-                [cdkDragData]="dragItems"
-                cdkDrag
-              >
-                <ng-container *ngIf="data.content === 'Button'">
-                  <p [class]="data.class">{{ data.content }}</p>
-                </ng-container>
-
-                <ng-container *ngIf="data.content === 'Input'">
-                  <p [class]="data.class">{{ data.content }}</p>
-                </ng-container>
-              </div>
-            </div>
-          </div>
-        </section>
-      </section>
-    </form>
+    <header id="app-header">
+      <nav id="app-tools">
+        <p (click)="showTools('Text')" matTooltip="Text">
+          <span class="material-symbols-outlined"> format_shapes </span>
+        </p>
+        <p (click)="showTools('Size')" matTooltip="Size">
+          <span class="material-symbols-outlined"> aspect_ratio </span>
+        </p>
+        <p (click)="showTools('Padding')" matTooltip="Spacing">
+          <span class="material-symbols-outlined"> format_letter_spacing </span>
+        </p>
+        <p (click)="showTools('Colour')" matTooltip="Color">
+          <span class="material-symbols-outlined"> palette </span>
+        </p>
+        <p (click)="showTools('Border')" matTooltip="Border">
+          <span class="material-symbols-outlined"> crop_free </span>
+        </p>
+        <p (click)="showTools('components')" matTooltip="Components">
+          <span class="material-symbols-outlined"> package_2 </span>
+        </p>
+      </nav>
+    </header>
 
     <section id="app-artboard">
       <div
@@ -439,4 +44,382 @@
       </div>
     </section>
   </section>
+
+  <form [formGroup]="btnForm" id="app-menus" *ngIf="showAppMenu">
+    <section [ngSwitch]="showToolsKey" id="app-menu-box">
+      <section *ngSwitchCase="'Text'" id="app-menu-List">
+        <header>
+          <h3>Text</h3>
+        </header>
+        <div class="tools-box">
+          <div class="tools b-bottom">
+            <label>Button Name</label>
+            <input
+              type="text"
+              formControlName="buttonName"
+              (keyup)="makeChanges()"
+            />
+          </div>
+
+          <div class="tools-grid b-bottom">
+            <div class="grid02-expand">
+              <label>Font</label>
+              <select formControlName="fontFamily" (change)="makeChanges()">
+                <option value="Montserrat">Montserrat</option>
+                <option value="Poppins">Poppins</option>
+                <option value="Lato">Lato</option>
+                <option value="Playwrite CU">Playwrite CU</option>
+              </select>
+            </div>
+            <div>
+              <label>Font Size</label>
+              <input type="text" formControlName="buttonName" />
+            </div>
+            <div>
+              <label>Font Weight</label>
+              <select formControlName="fontWeight" (change)="makeChanges()">
+                <option value="300">300</option>
+                <option value="400">400</option>
+                <option value="500">500</option>
+                <option value="600">600</option>
+                <option value="700">700</option>
+                <option value="800">800</option>
+              </select>
+            </div>
+            <div>
+              <label>Line Height</label>
+              <input type="text" formControlName="buttonName" />
+            </div>
+            <div>
+              <label>Letter spacing</label>
+              <input type="text" formControlName="buttonName" />
+            </div>
+          </div>
+
+          <div class="tools-flex">
+            <div>
+              <label>Text Align</label>
+              <div class="text-aling">
+                <span class="material-symbols-outlined" id="active-menu">
+                  format_align_left
+                </span>
+                <span class="material-symbols-outlined">
+                  format_align_justify
+                </span>
+                <span class="material-symbols-outlined">
+                  format_align_center
+                </span>
+                <span class="material-symbols-outlined">
+                  format_align_right
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <label>Text Color</label>
+              <div class="text-color">
+                <div>
+                  <input
+                    type="color"
+                    formControlName="textColor"
+                    (change)="makeChanges()"
+                  />
+                  <p>{{ btnForm.get("textColor")!.value }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section *ngSwitchCase="'Size'" id="app-menu-List">
+        <header>
+          <h3>Size</h3>
+        </header>
+
+        <div class="menu-desc">
+          <p>
+            <span class="material-symbols-outlined"> error </span>
+            <span>By default size is auto</span>
+          </p>
+        </div>
+
+        <div class="tools-box">
+          <div class="tools-flex">
+            <div>
+              <label>Width</label>
+              <input
+                type="range"
+                min="50"
+                max="600"
+                formControlName="width"
+                class="slider"
+                (input)="makeChanges()"
+              />
+              <p>{{ this.btnForm.get("width")?.value }}</p>
+            </div>
+            <div>
+              <label>Height</label>
+              <input
+                type="range"
+                min="30"
+                max="500"
+                formControlName="height"
+                class="slider"
+                (input)="makeChanges()"
+              />
+              <p>{{ this.btnForm.get("height")?.value }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section *ngSwitchCase="'Padding'" id="app-menu-List">
+        <header>
+          <h3>Padding</h3>
+        </header>
+        <div class="tools-box">
+          <div class="tools-grid">
+            <div class="grid02-expand">
+              <label>Equal Padding</label>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                formControlName="padding"
+                class="slider"
+                (input)="makeChanges()"
+                [disabled]="!editPadding"
+              />
+            </div>
+
+            <div>
+              <label>Top</label>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                formControlName="paddingTop"
+                class="slider"
+                (input)="makeChanges()"
+                [disabled]="editPadding"
+              />
+            </div>
+
+            <div>
+              <label>Right</label>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                formControlName="paddingRight"
+                class="slider"
+                (input)="makeChanges()"
+                [disabled]="editPadding"
+              />
+            </div>
+
+            <div>
+              <label>Bottom</label>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                formControlName="paddingBottom"
+                class="slider"
+                (input)="makeChanges()"
+                [disabled]="editPadding"
+              />
+            </div>
+
+            <div>
+              <label>Left</label>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                formControlName="paddingLeft"
+                class="slider"
+                (input)="makeChanges()"
+                [disabled]="editPadding"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section *ngSwitchCase="'Colour'" id="app-menu-List">
+        <header>
+          <h3>Colour</h3>
+        </header>
+        <div class="tools-box">
+          <div class="tools-flex">
+            <div>
+              <label>Background</label>
+              <div class="text-color">
+                <div>
+                  <input
+                    type="color"
+                    formControlName="backgroundColor"
+                    (change)="makeChanges()"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label>Border</label>
+              <div class="text-color">
+                <div>
+                  <input
+                    type="color"
+                    formControlName="borderColor"
+                    (change)="makeChanges()"
+                  />
+                  <p>{{ this.btnForm.get("borderColor")?.value }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section *ngSwitchCase="'Border'" id="app-menu-List">
+        <header>
+          <h3>Border</h3>
+        </header>
+        <div class="tools-box">
+          <div class="tools-flex b-bottom">
+            <div>
+              <label>Border Width</label>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                formControlName="borderWidth"
+                class="slider"
+                (input)="makeChanges()"
+              />
+            </div>
+            <div>
+              <label>Border Style</label>
+              <select formControlName="borderStyle" (change)="makeChanges()">
+                <option value="solid">solid</option>
+                <option value="dotted">Dotted</option>
+                <option value="dashed">Dashed</option>
+                <option value="inset">Inset</option>
+                <option value="outside">Outside</option>
+                <option value="ridge">Ridge</option>
+                <option value="groove">Groove</option>
+                <option value="double">Double</option>
+                <option value="none">None</option>
+                <option value="hidden">Hidden</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="tools-grid b-bottom">
+            <div class="grid02-expand">
+              <label>Equal Border Radius</label>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                formControlName="radius"
+                class="slider"
+                (input)="makeChanges()"
+                [disabled]="!editRadius"
+              />
+            </div>
+
+            <div>
+              <label>Top Left</label>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                formControlName="radiusLTop"
+                class="slider"
+                (input)="makeChanges()"
+                [disabled]="editRadius"
+              />
+            </div>
+
+            <div>
+              <label>Top Right</label>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                formControlName="radiusRTop"
+                class="slider"
+                (input)="makeChanges()"
+                [disabled]="editRadius"
+              />
+            </div>
+
+            <div>
+              <label>Bottom Right</label>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                formControlName="radiusRBottom"
+                class="slider"
+                (input)="makeChanges()"
+                [disabled]="editRadius"
+              />
+            </div>
+
+            <div>
+              <label>Bottom Left</label>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                formControlName="radiusLBottom"
+                class="slider"
+                (input)="makeChanges()"
+                [disabled]="editRadius"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section *ngSwitchCase="'components'" id="app-menu-List">
+        <div class="menu-desc">
+          <p>
+            <span class="material-symbols-outlined"> error </span>
+            <span>Drag and drop the component you want to create.</span>
+          </p>
+        </div>
+        <div [ngClass]="dragItems.length !== 2 ? 'disabled-div' : ''">
+          <div
+            class="component-list"
+            id="componentList-key"
+            cdkDropList
+            (cdkDropListDropped)="drop($event, 'initial')"
+            [cdkDropListData]="dragItems"
+            [cdkDropListConnectedTo]="['app-canvas']"
+            [cdkDropListSortPredicate]="sortPredicate"
+          >
+            <div
+              *ngFor="let data of dragItems"
+              [cdkDragData]="dragItems"
+              cdkDrag
+            >
+              <ng-container *ngIf="data.content === 'Button'">
+                <p [class]="data.class">{{ data.content }}</p>
+              </ng-container>
+
+              <ng-container *ngIf="data.content === 'Input'">
+                <p [class]="data.class">{{ data.content }}</p>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </form>
 </main>

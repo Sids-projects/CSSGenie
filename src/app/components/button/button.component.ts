@@ -21,7 +21,7 @@ export class ButtonComponent {
   showToolsKey: string = 'Text';
   changes: any = {};
 
-  appContentStyle: string = 'grid-template-columns: 6.4rem 30rem 1fr';
+  appContentStyle: string = 'grid-template-rows: auto 1fr';
   showAppMenu: boolean = true;
 
   customizeKey: boolean = true;
@@ -36,6 +36,7 @@ export class ButtonComponent {
   ngOnInit() {
     this.btnForm = new FormGroup({
       buttonName: new FormControl('Click'),
+      fontFamily: new FormControl('Lato'),
       fontSize: new FormControl(16),
       fontWeight: new FormControl(400),
       // Width Height
@@ -111,6 +112,7 @@ export class ButtonComponent {
     }
 
     this.changes = {
+      'font-family': `${this.btnForm.get('fontFamily')?.value}, sans-serif`,
       'font-size': `${this.btnForm.get('fontSize')?.value}px`,
       'font-weight': `${this.btnForm.get('fontWeight')?.value}`,
       width:
@@ -153,10 +155,10 @@ export class ButtonComponent {
     this.showToolsKey = param;
 
     if (param !== '') {
-      this.appContentStyle = 'grid-template-columns: 6.4rem 30rem 1fr';
+      this.appContentStyle = 'grid-template-rows: auto 1fr';
       this.showAppMenu = true;
     } else {
-      this.appContentStyle = 'grid-template-columns: 6.4rem 1fr';
+      this.appContentStyle = 'grid-template-rows: auto 1fr';
       this.showAppMenu = false;
     }
   }
